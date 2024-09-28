@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -26,6 +27,16 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
+    protected function redirectTo()
+    {
+        // Check if the user is authenticated
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return route('dashboard'); // Redirect to dashboard if admin
+        }
+
+        return $this->redirectTo; // Default redirect for non-admin users
+    }
 
     /**
      * Create a new controller instance.

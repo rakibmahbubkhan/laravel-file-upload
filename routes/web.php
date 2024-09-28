@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
@@ -19,11 +20,14 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::resource('rentals', AdminRentalController::class);
     Route::resource('customers', AdminCustomerController::class);
 });
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('admin');
+
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/rentals', [PageController::class, 'rentals'])->name('rentals');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('cars', FrontendCarController::class);
