@@ -34,11 +34,9 @@ class RentalController extends Controller
             return redirect()->back()->with('error', 'Car is not available for the selected dates.');
         }
 
-        // Convert start_date and end_date to Carbon instances
         $startDate = Carbon::parse($request->start_date);
         $endDate = Carbon::parse($request->end_date);
 
-        // Calculate the total cost
         $totalCost = $car->daily_rent_price * $startDate->diffInDays($endDate);
 
         $rental = Rental::create([
